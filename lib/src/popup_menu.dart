@@ -134,16 +134,21 @@ class PopupMenu {
             ),
             // menu content
             Positioned(
-              left: layoutp.offset.dx + (layoutp.width / 2) - 7.5,
-              top: layoutp.isDown
-                  ? layoutp.offset.dy - config.arrowHeight
-                  : layoutp.offset.dy + layoutp.height,
-              child: CustomPaint(
-                size: Size(15.0, config.arrowHeight),
-                painter: TrianglePainter(
-                    isDown: layoutp.isDown, color: config.backgroundColor),
-              ),
-            ),
+              left: layoutp.offset.dx,
+              top: layoutp.offset.dy,
+              child: menu.build(),
+            )
+            // Positioned(
+            //   left: layoutp.offset.dx + (layoutp.width / 2) - 7.5,
+            //   top: layoutp.isDown
+            //       ? layoutp.offset.dy - config.arrowHeight
+            //       : layoutp.offset.dy + layoutp.height,
+            //   child: CustomPaint(
+            //     size: Size(15.0, config.arrowHeight),
+            //     painter: TrianglePainter(
+            //         isDown: layoutp.isDown, color: config.backgroundColor),
+            //   ),
+            // ),
           ],
         ),
       ),
