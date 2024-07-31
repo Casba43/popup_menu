@@ -134,12 +134,7 @@ class PopupMenu {
             ),
             // menu content
             Positioned(
-              left: layoutp.offset.dx +
-                  (arrowAlignment == ArrowAlignment.center
-                      ? layoutp.width / 2 - 7.5
-                      : (arrowAlignment == ArrowAlignment.right
-                          ? layoutp.width - 15
-                          : 0)),
+              left: layoutp.width / 2 - 7.5,
               top: layoutp.offset.dy,
               child: menu.build(),
             ),
