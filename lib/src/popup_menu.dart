@@ -134,9 +134,15 @@ class PopupMenu {
             ),
             // menu content
             Positioned(
-              left: layoutp.offset.dx,
-              top: layoutp.offset.dy,
-              child: menu.build(),
+              left: layoutp.offset.dx + (layoutp.width / 2) - 7.5,
+              top: layoutp.isDown
+                  ? layoutp.offset.dy - config.arrowHeight
+                  : layoutp.offset.dy + layoutp.height,
+              child: CustomPaint(
+                size: Size(15.0, config.arrowHeight),
+                painter: TrianglePainter(
+                    isDown: layoutp.isDown, color: config.backgroundColor),
+              ),
             ),
           ],
         ),
@@ -151,35 +157,24 @@ class PopupMenu {
     double contentWidth,
     double contentHeight,
   ) {
-    double dx;
-    switch (arrowAlignment) {
-      case ArrowAlignment.left:
-        dx = attachRect.left;
-        break;
-      case ArrowAlignment.center:
-        dx = attachRect.left + attachRect.width / 2.0 - contentWidth / 2.0;
-        break;
-      case ArrowAlignment.right:
-        dx = attachRect.right - contentWidth;
-        break;
-    }
+    // Horizontal positioning (centering by default)
+    double dx = attachRect.left + attachRect.width / 2.0 - contentWidth / 2.0;
 
-    // Ensure the menu doesn't go out of the screen
-    if (dx < 10.0) {
-      dx = 10.0;
-    }
-
-    if (dx + contentWidth > _screenSize.width && dx > 10.0) {
+    // Ensure the menu doesn't go off-screen horizontally
+    if (dx < 10.0) dx = 10.0;
+    if (dx + contentWidth > _screenSize.width)
       dx = _screenSize.width - contentWidth - 10;
-    }
 
-    // Determine if the menu should be displayed above or below the trigger area
-    double dy = attachRect.bottom + config.arrowHeight;
-    bool isDown =
-        true; // Assume the arrow points down (menu is below the trigger)
-    if (dy + contentHeight > _screenSize.height) {
-      dy = attachRect.top - contentHeight - config.arrowHeight;
-      isDown = false; // Arrow points up (menu is above the trigger)
+    // Vertical positioning (above or below the trigger area)
+    double dy = attachRect.top - contentHeight;
+    bool isDown = false;
+
+    // Check if there's enough space above; if not, place below
+    if (dy <= MediaQuery.of(context).padding.top + 10) {
+      dy = attachRect.bottom + config.arrowHeight;
+      isDown = true;
+    } else {
+      dy -= config.arrowHeight;
     }
 
     return _LayoutP(
