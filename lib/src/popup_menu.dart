@@ -122,16 +122,17 @@ class PopupMenu {
               children: <Widget>[
                 // triangle arrow
                 // triangle arrow
+                // triangle arrow
                 Positioned(
                   left: layoutp.offset.dx +
                       (arrowAlignment == ArrowAlignment.center
-                          ? (layoutp.width / 2 - 7.5)
+                          ? layoutp.width / 2 - 7.5
                           : (arrowAlignment == ArrowAlignment.right
                               ? layoutp.width - 15
                               : 0)),
                   top: layoutp.isDown
-                      ? layoutp.offset.dy + layoutp.height
-                      : layoutp.offset.dy - config.arrowHeight,
+                      ? layoutp.offset.dy - config.arrowHeight
+                      : layoutp.offset.dy + layoutp.height,
                   child: CustomPaint(
                     size: Size(15.0, config.arrowHeight),
                     painter: TrianglePainter(
