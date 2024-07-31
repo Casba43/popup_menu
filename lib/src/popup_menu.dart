@@ -109,46 +109,38 @@ class PopupMenu {
       onTap: () {
         dismiss();
       },
-      onVerticalDragStart: (DragStartDetails details) {
-        dismiss();
-      },
-      onHorizontalDragStart: (DragStartDetails details) {
-        dismiss();
-      },
       child: Material(
-          color: Colors.transparent,
-          child: Container(
-            child: Stack(
-              children: <Widget>[
-                // triangle arrow
-                // triangle arrow
-                // triangle arrow
-                Positioned(
-                  left: layoutp.offset.dx +
-                      (arrowAlignment == ArrowAlignment.center
-                          ? layoutp.width / 2 - 7.5
-                          : (arrowAlignment == ArrowAlignment.right
-                              ? layoutp.width - 15
-                              : 0)),
-                  top: layoutp.isDown
-                      ? layoutp.offset.dy - config.arrowHeight
-                      : layoutp.offset.dy + layoutp.height,
-                  child: CustomPaint(
-                    size: Size(15.0, config.arrowHeight),
-                    painter: TrianglePainter(
-                        isDown: layoutp.isDown, color: config.backgroundColor),
-                  ),
+        color: Colors.transparent,
+        child: Stack(
+          children: <Widget>[
+            // triangle arrow
+            Positioned(
+              left: layoutp.offset.dx +
+                  (arrowAlignment == ArrowAlignment.center
+                      ? layoutp.width / 2 - 7.5
+                      : (arrowAlignment == ArrowAlignment.right
+                          ? layoutp.width - 15
+                          : 0)),
+              top: layoutp.isDown
+                  ? layoutp.offset.dy - config.arrowHeight
+                  : layoutp.offset.dy + layoutp.height,
+              child: CustomPaint(
+                size: Size(15.0, config.arrowHeight),
+                painter: TrianglePainter(
+                  isDown: layoutp.isDown,
+                  color: config.backgroundColor,
                 ),
-
-                // menu content
-                Positioned(
-                  left: layoutp.offset.dx,
-                  top: layoutp.offset.dy,
-                  child: menu.build(),
-                )
-              ],
+              ),
             ),
-          )),
+            // menu content
+            Positioned(
+              left: layoutp.offset.dx,
+              top: layoutp.offset.dy,
+              child: menu.build(),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -178,21 +170,16 @@ class PopupMenu {
     }
 
     if (dx + contentWidth > _screenSize.width && dx > 10.0) {
-      double tempDx = _screenSize.width - contentWidth - 10;
-      if (tempDx > 10) {
-        dx = tempDx;
-      }
+      dx = _screenSize.width - contentWidth - 10;
     }
 
-    double dy = attachRect.top - contentHeight;
-    bool isDown = false;
-    if (dy <= MediaQuery.of(context).padding.top + 10) {
-      // The have not enough space above, show menu under the widget.
-      dy = config.arrowHeight + attachRect.height + attachRect.top;
-      isDown = true;
-    } else {
-      dy -= config.arrowHeight;
-      isDown = false;
+    // Determine if the menu should be displayed above or below the trigger area
+    double dy = attachRect.bottom + config.arrowHeight;
+    bool isDown =
+        true; // Assume the arrow points down (menu is below the trigger)
+    if (dy + contentHeight > _screenSize.height) {
+      dy = attachRect.top - contentHeight - config.arrowHeight;
+      isDown = false; // Arrow points up (menu is above the trigger)
     }
 
     return _LayoutP(
