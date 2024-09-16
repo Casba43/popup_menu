@@ -113,7 +113,7 @@ class PopupMenu {
                   (arrowAlignment == ArrowAlignment.center
                       ? layoutp.width / 2 - 7.5
                       : (arrowAlignment == ArrowAlignment.right
-                      ? layoutp.width - 25
+                      ? layoutp.width - 20
                       : 0)),
               top: layoutp.isDown
                   ? layoutp.offset.dy - config.arrowHeight
