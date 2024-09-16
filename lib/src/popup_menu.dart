@@ -135,7 +135,7 @@ class PopupMenu {
                 children: [
                   // Add the close button at the top of the popup
                   Align(
-                    alignment: Alignment.topRight,
+                    alignment: Alignment.bottomRight,
                     child: CustomCloseButton(
                       onPressed: dismiss, // Use the dismiss method to close the menu
                     ),
