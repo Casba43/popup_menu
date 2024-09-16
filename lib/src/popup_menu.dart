@@ -126,8 +126,7 @@ class PopupMenu {
                   : layoutp.offset.dy + layoutp.height,
               child: CustomPaint(
                 size: Size(15.0, config.arrowHeight),
-                painter: TrianglePainter(
-                  isDown: !layoutp.isDown,
+                painter: SquarePainter(
                   color: config.backgroundColor,
                 ),
               ),
