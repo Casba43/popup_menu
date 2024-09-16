@@ -14,7 +14,7 @@ class CustomCloseButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: CustomPaint(
-        size: const Size(30, 30), // Set size of the button
+        size: const Size(50, 50), // Set size of the button
         painter: SquarePainter(
           color: color ?? Theme.of(context).primaryColor, // Use user-specified or theme's primary color
           borderRadius: 10.0, // Rounded corners
