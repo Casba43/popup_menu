@@ -43,7 +43,6 @@ class PopupMenu {
   final MenuConfig config;
   Size _screenSize = window.physicalSize / window.devicePixelRatio;
   MenuLayout? menuLayout;
-
   PopupMenu({
     required this.context,
     required this.items,
@@ -52,6 +51,7 @@ class PopupMenu {
     this.onDismiss,
     this.onShow,
     this.arrowAlignment = ArrowAlignment.center, // Default to center
+
   });
 
   void show({

@@ -61,7 +61,7 @@ class SquarePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     // Define the points for the cross lines
-    final double padding = 5.0; // Padding for the cross inside the button
+    final double padding = 25.0; // Padding for the cross inside the button
     Offset topLeft = Offset(padding, padding);
     Offset bottomRight = Offset(size.width - padding, size.height - padding);
     Offset topRight = Offset(size.width - padding, padding);
