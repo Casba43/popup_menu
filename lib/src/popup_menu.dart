@@ -109,12 +109,7 @@ class PopupMenu {
           children: <Widget>[
             // triangle arrow
             // Positioned(
-            //   left: layoutp.offset.dx +
-            //       (arrowAlignment == ArrowAlignment.center
-            //           ? layoutp.width / 2 - 7.5
-            //           : (arrowAlignment == ArrowAlignment.right
-            //           ? layoutp.width - 25
-            //           : 0)),
+
             //   top: layoutp.isDown
             //       ? layoutp.offset.dy - config.arrowHeight
             //       : layoutp.offset.dy + layoutp.height,
@@ -128,7 +123,12 @@ class PopupMenu {
             // ),
             // menu content
             Positioned(
-              left: layoutp.offset.dx,
+              left: layoutp.offset.dx +
+                  (arrowAlignment == ArrowAlignment.center
+                      ? layoutp.width / 2 - 7.5
+                      : (arrowAlignment == ArrowAlignment.right
+                      ? layoutp.width - 25
+                      : 0)),
               top: layoutp.offset.dy,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
