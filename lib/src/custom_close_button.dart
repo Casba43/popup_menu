@@ -61,7 +61,7 @@ class SquarePainter extends CustomPainter {
       ..strokeCap = StrokeCap.round;
 
     // Define the points for the cross lines
-    final double padding = 8.0; // Increased padding for a smaller cross
+    final double padding = 12.0; // Increased padding for a smaller cross
     Offset topLeft = Offset(padding, padding);
     Offset bottomRight = Offset(size.width - padding, size.height - padding);
     Offset topRight = Offset(size.width - padding, padding);
