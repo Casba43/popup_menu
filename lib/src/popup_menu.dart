@@ -108,20 +108,6 @@ class PopupMenu {
         child: Stack(
           children: <Widget>[
             // triangle arrow
-            // Positioned(
-
-            //   top: layoutp.isDown
-            //       ? layoutp.offset.dy - config.arrowHeight
-            //       : layoutp.offset.dy + layoutp.height,
-            //   child: CustomPaint(
-            //     size: Size(15.0, config.arrowHeight),
-            //     painter: TrianglePainter(
-            //       isDown: !layoutp.isDown,
-            //       color: config.backgroundColor,
-            //     ),
-            //   ),
-            // ),
-            // menu content
             Positioned(
               left: layoutp.offset.dx +
                   (arrowAlignment == ArrowAlignment.center
@@ -129,6 +115,19 @@ class PopupMenu {
                       : (arrowAlignment == ArrowAlignment.right
                       ? layoutp.width - 25
                       : 0)),
+              top: layoutp.isDown
+                  ? layoutp.offset.dy - config.arrowHeight
+                  : layoutp.offset.dy + layoutp.height,
+              child:   Align(
+                alignment: Alignment.bottomRight,
+                child: CustomCloseButton(
+                  onPressed: dismiss, // Use the dismiss method to close the menu
+                ),
+            ),
+            ),
+            // menu content
+            Positioned(
+              left: layoutp.offset.dx,
               top: layoutp.offset.dy,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -136,12 +135,7 @@ class PopupMenu {
                   // Add the close button at the top of the popup
 
                   menu.build(), // The existing menu layout
-                  Align(
-                    alignment: Alignment.bottomRight,
-                    child: CustomCloseButton(
-                      onPressed: dismiss, // Use the dismiss method to close the menu
-                    ),
-                  ),
+
                 ],
               ),
             ),
