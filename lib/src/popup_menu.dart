@@ -8,6 +8,7 @@ import 'package:popup_menu/src/menu_config.dart';
 import 'package:popup_menu/src/menu_layout.dart';
 import 'package:popup_menu/src/triangle_painter.dart';
 import 'package:popup_menu/src/utils.dart';
+import 'custom_close_button.dart';
 import 'menu_item.dart';
 
 export 'menu_item.dart';
@@ -33,21 +34,15 @@ class PopupMenu {
   OverlayEntry? _entry;
   late List<MenuItemProvider> items;
   final ArrowAlignment arrowAlignment;
-
-  /// callback
   final VoidCallback? onDismiss;
   final MenuClickCallback? onClickMenu;
   final VoidCallback? onShow;
-
-  /// Cannot be null
   BuildContext context;
-
-  /// It's showing or not.
   bool _isShow = false;
   bool get isShow => _isShow;
-
   final MenuConfig config;
   Size _screenSize = window.physicalSize / window.devicePixelRatio;
+  MenuLayout? menuLayout;
 
   PopupMenu({
     required this.context,
@@ -58,14 +53,13 @@ class PopupMenu {
     this.onShow,
     this.arrowAlignment = ArrowAlignment.center, // Default to center
   });
-  MenuLayout? menuLayout;
 
   void show({
     Rect? rect,
     GlobalKey? widgetKey,
   }) {
     assert(rect != null || widgetKey != null,
-        "'rect' and 'key' can't be both null");
+    "'rect' and 'key' can't be both null");
 
     final attachRect = rect ?? getWidgetGlobalRect(widgetKey!);
 
@@ -114,28 +108,41 @@ class PopupMenu {
         child: Stack(
           children: <Widget>[
             // triangle arrow
-            Positioned(
-              left: layoutp.offset.dx +
-                  (arrowAlignment == ArrowAlignment.center
-                      ? layoutp.width / 2 - 7.5
-                      : (arrowAlignment == ArrowAlignment.right
-                          ? layoutp.width - 25
-                          : 0)),
-              top: layoutp.isDown
-                  ? layoutp.offset.dy - config.arrowHeight
-                  : layoutp.offset.dy + layoutp.height,
-              child: CustomPaint(
-                size: Size(15.0, config.arrowHeight),
-                painter: SquarePainter(
-                  color: config.backgroundColor,
-                ),
-              ),
-            ),
+            // Positioned(
+            //   left: layoutp.offset.dx +
+            //       (arrowAlignment == ArrowAlignment.center
+            //           ? layoutp.width / 2 - 7.5
+            //           : (arrowAlignment == ArrowAlignment.right
+            //           ? layoutp.width - 25
+            //           : 0)),
+            //   top: layoutp.isDown
+            //       ? layoutp.offset.dy - config.arrowHeight
+            //       : layoutp.offset.dy + layoutp.height,
+            //   child: CustomPaint(
+            //     size: Size(15.0, config.arrowHeight),
+            //     painter: TrianglePainter(
+            //       isDown: !layoutp.isDown,
+            //       color: config.backgroundColor,
+            //     ),
+            //   ),
+            // ),
             // menu content
             Positioned(
               left: layoutp.offset.dx,
               top: layoutp.offset.dy,
-              child: menu.build(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Add the close button at the top of the popup
+                  Align(
+                    alignment: Alignment.topRight,
+                    child: CustomCloseButton(
+                      onPressed: dismiss, // Use the dismiss method to close the menu
+                    ),
+                  ),
+                  menu.build(), // The existing menu layout
+                ],
+              ),
             ),
           ],
         ),
@@ -143,26 +150,21 @@ class PopupMenu {
     );
   }
 
-  /// 计算布局位置
   _LayoutP _calculateOffset(
-    BuildContext context,
-    Rect attachRect,
-    double contentWidth,
-    double contentHeight,
-  ) {
-    // Horizontal positioning (centering by default)
+      BuildContext context,
+      Rect attachRect,
+      double contentWidth,
+      double contentHeight,
+      ) {
     double dx = attachRect.left + attachRect.width / 2.0 - contentWidth / 2.0;
 
-    // Ensure the menu doesn't go off-screen horizontally
     if (dx < 10.0) dx = 10.0;
     if (dx + contentWidth > _screenSize.width)
       dx = _screenSize.width - contentWidth - 10;
 
-    // Vertical positioning (above or below the trigger area)
     double dy = attachRect.top - contentHeight;
     bool isDown = false;
 
-    // Check if there's enough space above; if not, place below
     if (dy <= MediaQuery.of(context).padding.top + 10) {
       dy = attachRect.bottom + config.arrowHeight;
       isDown = true;
@@ -181,7 +183,6 @@ class PopupMenu {
 
   void dismiss() {
     if (!_isShow) {
-      // Remove method should only be called once
       return;
     }
 
