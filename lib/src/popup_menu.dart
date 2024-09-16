@@ -57,6 +57,7 @@ class PopupMenu {
   void show({
     Rect? rect,
     GlobalKey? widgetKey,
+    Color? closeButtonColor, // Allow the user to specify the close button color
   }) {
     assert(rect != null || widgetKey != null,
     "'rect' and 'key' can't be both null");
@@ -89,7 +90,7 @@ class PopupMenu {
     );
 
     _entry = OverlayEntry(builder: (context) {
-      return build(layoutp, menuLayout!);
+      return build(layoutp, menuLayout!, closeButtonColor);
     });
 
     Overlay.of(context)!.insert(_entry!);
@@ -97,7 +98,7 @@ class PopupMenu {
     onShow?.call();
   }
 
-  Widget build(_LayoutP layoutp, MenuLayout menu) {
+  Widget build(_LayoutP layoutp, MenuLayout menu, Color? closeButtonColor) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -119,11 +120,12 @@ class PopupMenu {
                   ? layoutp.offset.dy - config.arrowHeight
                   : layoutp.offset.dy + layoutp.height,
               child:   Align(
-                alignment: Alignment.bottomRight,
+                alignment: Alignment.topRight,
                 child: CustomCloseButton(
+                  color: closeButtonColor , // Set the custom background color
                   onPressed: dismiss, // Use the dismiss method to close the menu
                 ),
-            ),
+              ),
             ),
             // menu content
             Positioned(
@@ -132,10 +134,9 @@ class PopupMenu {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Add the close button at the top of the popup
+                  // Add the close button at the top of the popup with customizable color
 
                   menu.build(), // The existing menu layout
-
                 ],
               ),
             ),

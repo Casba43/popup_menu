@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 
 class CustomCloseButton extends StatelessWidget {
   final VoidCallback onPressed;
+  final Color? color; // Allow the user to set the background color
 
-  CustomCloseButton({required this.onPressed});
+  CustomCloseButton({
+    required this.onPressed,
+    this.color, // Optional background color
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -12,7 +16,7 @@ class CustomCloseButton extends StatelessWidget {
       child: CustomPaint(
         size: const Size(30, 30), // Set size of the button
         painter: SquarePainter(
-          color: Theme.of(context).primaryColor, // Use theme's primary color
+          color: color ?? Theme.of(context).primaryColor, // Use user-specified or theme's primary color
           borderRadius: 10.0, // Rounded corners
           strokeWidth: 2.0,  // Thickness of the cross icon
         ),
