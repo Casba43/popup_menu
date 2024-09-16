@@ -134,13 +134,14 @@ class PopupMenu {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Add the close button at the top of the popup
+
+                  menu.build(), // The existing menu layout
                   Align(
                     alignment: Alignment.bottomRight,
                     child: CustomCloseButton(
                       onPressed: dismiss, // Use the dismiss method to close the menu
                     ),
                   ),
-                  menu.build(), // The existing menu layout
                 ],
               ),
             ),
