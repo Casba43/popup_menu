@@ -51,7 +51,6 @@ class PopupMenu {
     this.onDismiss,
     this.onShow,
     this.arrowAlignment = ArrowAlignment.center, // Default to center
-
   });
 
   void show({
@@ -59,8 +58,7 @@ class PopupMenu {
     GlobalKey? widgetKey,
     Color? closeButtonColor, // Allow the user to specify the close button color
   }) {
-    assert(rect != null || widgetKey != null,
-    "'rect' and 'key' can't be both null");
+    assert(rect != null || widgetKey != null, "'rect' and 'key' can't be both null");
 
     final attachRect = rect ?? getWidgetGlobalRect(widgetKey!);
 
@@ -113,16 +111,12 @@ class PopupMenu {
               left: layoutp.offset.dx +
                   (arrowAlignment == ArrowAlignment.center
                       ? layoutp.width / 2 - 7.5
-                      : (arrowAlignment == ArrowAlignment.right
-                      ? layoutp.width - 20
-                      : 0)),
-              top: layoutp.isDown
-                  ? layoutp.offset.dy - config.arrowHeight
-                  : layoutp.offset.dy + layoutp.height,
-              child:   Align(
+                      : (arrowAlignment == ArrowAlignment.right ? layoutp.width - 20 : 0)),
+              top: layoutp.isDown ? layoutp.offset.dy - config.arrowHeight : layoutp.offset.dy + layoutp.height,
+              child: Align(
                 alignment: Alignment.topRight,
                 child: CustomCloseButton(
-                  color: closeButtonColor , // Set the custom background color
+                  color: closeButtonColor, // Set the custom background color
                   onPressed: dismiss, // Use the dismiss method to close the menu
                 ),
               ),
@@ -130,7 +124,7 @@ class PopupMenu {
             // menu content
             Positioned(
               left: layoutp.offset.dx,
-              top: layoutp.offset.dy,
+              top: layoutp.offset.dy - 10,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -147,16 +141,15 @@ class PopupMenu {
   }
 
   _LayoutP _calculateOffset(
-      BuildContext context,
-      Rect attachRect,
-      double contentWidth,
-      double contentHeight,
-      ) {
+    BuildContext context,
+    Rect attachRect,
+    double contentWidth,
+    double contentHeight,
+  ) {
     double dx = attachRect.left + attachRect.width / 2.0 - contentWidth / 2.0;
 
     if (dx < 10.0) dx = 10.0;
-    if (dx + contentWidth > _screenSize.width)
-      dx = _screenSize.width - contentWidth - 10;
+    if (dx + contentWidth > _screenSize.width) dx = _screenSize.width - contentWidth - 10;
 
     double dy = attachRect.top - contentHeight;
     bool isDown = false;
