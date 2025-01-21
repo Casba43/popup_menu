@@ -33,9 +33,7 @@ class ListMenuLayout implements MenuLayout {
               child: Container(
                 width: width,
                 height: height,
-                decoration: BoxDecoration(
-                    color: config.backgroundColor,
-                    borderRadius: BorderRadius.circular(10.0)),
+                decoration: BoxDecoration(color: config.backgroundColor, borderRadius: BorderRadius.circular(10.0)),
                 child: Column(
                   children: items.map((item) {
                     return GestureDetector(
@@ -49,21 +47,24 @@ class ListMenuLayout implements MenuLayout {
                         child: Row(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Container(
-                              margin: const EdgeInsets.only(left: 10),
-                              child: item.menuImage,
-                            ),
-                            Container(
-                              alignment: Alignment.centerLeft,
-                              margin: const EdgeInsets.only(left: 10),
-                              child: Text(
-                                item.menuTitle,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: item.menuTextStyle,
-                                textAlign: item.menuTextAlign,
+                            if (item.menuImage != null)
+                              Container(
+                                margin: const EdgeInsets.only(left: 10),
+                                child: item.menuImage,
                               ),
-                            )
+                            Expanded(
+                              child: Container(
+                                alignment: Alignment.centerLeft,
+                                margin: const EdgeInsets.only(left: 10),
+                                child: Text(
+                                  item.menuTitle,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: item.menuTextStyle,
+                                  textAlign: item.menuTextAlign,
+                                ),
+                              ),
+                            ),
                           ],
                         ),
                       ),

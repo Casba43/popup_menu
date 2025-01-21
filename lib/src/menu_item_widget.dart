@@ -68,11 +68,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
           height: widget.itemHeight,
           decoration: BoxDecoration(
               color: color,
-              border: Border(
-                  right: BorderSide(
-                      color: widget.showLine
-                          ? widget.lineColor
-                          : Colors.transparent))),
+              border: Border(right: BorderSide(color: widget.showLine ? widget.lineColor : Colors.transparent))),
           child: _createContent()),
     );
   }
@@ -95,6 +91,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
               child: Text(
                 widget.item.menuTitle,
                 style: widget.item.menuTextStyle,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
           )
@@ -110,6 +107,7 @@ class _MenuItemWidgetState extends State<MenuItemWidget> {
               widget.item.menuTitle,
               style: widget.item.menuTextStyle,
               textAlign: widget.item.menuTextAlign,
+              overflow: TextOverflow.ellipsis,
             ),
           ),
         ),
